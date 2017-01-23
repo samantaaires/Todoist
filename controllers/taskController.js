@@ -82,6 +82,7 @@ module.exports = {
             }
 
             task.title = req.body.title ? req.body.title : task.title;
+            task.content = req.body.content ? req.body.content : task.content;
 			
             task.save(function (err, task) {
                 if (err) {
@@ -109,6 +110,46 @@ module.exports = {
                 });
             }
             return res.status(204).json();
+        });
+    },
+
+
+    teste: function (req, res) {
+        taskModel.update(
+            {
+                'taskStatus':'todo'
+            },
+            {$set:{
+                'taskStatus':'done'}
+            }, {multi:true}, function (err, task) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when update the task.',
+                    error: err
+                });
+            }
+            return res.json(task);
+        });
+    },
+
+    tarray: function(req, res){
+         taskModel.update({
+                'taskStatus':'done'
+            },
+        {
+       $push : {
+               taskList :  {
+                    "Oooi": 50.3293714,
+                    "Tchaau": 'oeo'
+                }
+        }}, {multi:true}, function (err, task) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when update the task.',
+                    error: err
+                });
+            }
+            return res.json(task);
         });
     }
 };

@@ -13,7 +13,8 @@ var taskRoutes = require('./routes/taskRoutes');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost:27017/exampleapp');
+mongoose.connect('mongodb://localhost:60001/chamados');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');

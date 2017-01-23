@@ -20,7 +20,12 @@ router.post('/', taskController.create);
 /*
  * PUT
  */
-router.put('/:id', taskController.update);
+//router.put('/:id', taskController.update);
+
+router.put('/', taskController.teste);
+
+router.patch('/', taskController.tarray);
+
 
 /*
  * DELETE
