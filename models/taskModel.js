@@ -6,7 +6,10 @@ var taskSchema = new Schema({
 	'content' : String,
 	'taskStatus' : { type: String, "default": 'todo' },
 	'taskList' : { type : Array , "default" : [] },
-	'date': { type: Date, default: Date.now }
+	'postedBy': {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'author'
+    }
 
 
 
