@@ -1,4 +1,5 @@
 var PostModel = require('../models/PostModel.js');
+var User = require('../models/UserModel.js');
 
 /**
  * PostController.js
@@ -11,7 +12,7 @@ module.exports = {
      * PostController.list()
      */
     list: function (req, res) {
-        PostModel.find(function (err, Posts) {
+    PostModel.find().populate("postedBy").exec(function (err, Posts) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting Post.',
@@ -47,18 +48,25 @@ module.exports = {
      * PostController.create()
      */
     create: function (req, res) {
-        var Post = new PostModel({			title : req.body.title
-        });
-
-        Post.save(function (err, Post) {
-            if (err) {
-                return res.status(500).json({
-                    message: 'Error when creating Post',
-                    error: err
+        User.findOne({ id: req.body.userId }).exec(function (err, user) {
+            if (!err && user) {
+                var Post = new PostModel({
+                    title : req.body.title,
+                    postedBy : user
                 });
+
+                Post.save(function (err, Post) {
+                    if (err) {
+                        return res.status(500).json({
+                        message: 'Error when creating Post',
+                        error: err
+                        });
+                    }
+                    return res.status(201).json(Post);
+                });    
             }
-            return res.status(201).json(Post);
         });
+        
     },
 
     /**
@@ -79,7 +87,8 @@ module.exports = {
                 });
             }
 
-            Post.title = req.body.title ? req.body.title : Post.title;			
+            Post.title = req.body.title ? req.body.title : Post.title;
+			
             Post.save(function (err, Post) {
                 if (err) {
                     return res.status(500).json({

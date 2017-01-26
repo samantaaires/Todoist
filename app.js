@@ -16,7 +16,7 @@ var PostRoutes = require('./routes/PostRoutes');
 
 var app = express();
 
-mongoose.connect('mongodb://localhost:60001/chamados');
+mongoose.connect('mongodb://localhost:27017/exampleapp');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
